@@ -1,0 +1,48 @@
+# depslib dependency file v1.0
+1621288646 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\narconio.c
+	"narconio.h"
+	<windows.h>
+
+1621288029 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\narconio.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<time.h>
+	<string.h>
+	"estruturas.h"
+
+1621102197 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\estruturas.h
+
+1621288112 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\funcoesenunciado.c
+	"narconio.h"
+
+1621288563 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\opcoesmenu.c
+	"narconio.h"
+	"opcoesMenu.h"
+	"funcoesEnunciado.h"
+
+1621273723 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\menupadrao.c
+	"menuPadrao.h"
+	<windows.h>
+
+1621030712 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\menupadrao.h
+	"narconio.h"
+
+1621283840 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\prática 14.c
+	<stdio.h>
+	<stdlib.h>
+	"narconio.h"
+	"opcoesMenu.h"
+	"menuPadrao.h"
+	"ativar_ansi_windows.h"
+	"windows.h"
+
+1621281884 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\opcoesmenu.h
+
+1621276736 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\funcoesenunciado.h
+
+1620052605 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\ativar_ansi_windows.h
+	<windows.h>
+	<stdio.h>
+	"ativar_ansi_windows.h"
+

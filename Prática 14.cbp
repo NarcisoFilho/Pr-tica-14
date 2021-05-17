@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Prática 14" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Prática 14" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Prática 14" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Prática 14.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ativar_ansi_windows.h" />
+		<Unit filename="estruturas.h" />
+		<Unit filename="funcoesEnunciado.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funcoesEnunciado.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="menuPadrao.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="menuPadrao.h" />
+		<Unit filename="narconio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="narconio.h" />
+		<Unit filename="opcoesMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="opcoesMenu.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
