@@ -7,4 +7,6 @@
         int op4( METADADOS_ARQ* dadosArq , char*** matriz );     // 4° ITEM DO MENU
         int op5( METADADOS_ARQ* dadosArq , char*** matriz );     // 5° ITEM DO MENU
 
+        void avisoNenhumArquivoCarregado( void );
+
 #endif // __OPCOESMENU_H_

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1621303004 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\narconio.c
+1621303296 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\narconio.c
 	"narconio.h"
 	<windows.h>
 
@@ -16,7 +16,7 @@
 1621301895 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\funcoesenunciado.c
 	"narconio.h"
 
-1621303070 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\opcoesmenu.c
+1621304739 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\opcoesmenu.c
 	"narconio.h"
 	"menuPadrao.h"
 	"opcoesMenu.h"
@@ -29,7 +29,7 @@
 1621297531 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\menupadrao.h
 	"narconio.h"
 
-1621302309 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\prática 14.c
+1621303989 source:c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\prática 14.c
 	<stdio.h>
 	<stdlib.h>
 	"narconio.h"
@@ -39,7 +39,7 @@
 	"windows.h"
 	"funcoesEnunciado.h"
 
-1621281884 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\opcoesmenu.h
+1621304778 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\opcoesmenu.h
 
 1621301384 c:\users\narci\onedrive\documentos\ufrgs\s1\algorítmos e programação\práticas\prática 14\funcoesenunciado.h
 

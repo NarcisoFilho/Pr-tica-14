@@ -17,7 +17,8 @@ int op1( METADADOS_ARQ* dadosArq , char*** matriz ){
         static int qtd_erros = 0;
         static char nome_tentativa_anterior[ 100 ] = { 0 };
         char nome_arq[ 100 ];
-
+        int tam;
+        int flag_formato = 0;
 
         /// Entrada pelo usuário do nome do arquivo
         printColoridoXY("Indique o nome do aquivo: " , 5 , 3 , BRANCO );
@@ -28,9 +29,26 @@ int op1( METADADOS_ARQ* dadosArq , char*** matriz ){
 
         defCorTxt( CIANO );
         fgets( nome_arq , 100 , stdin );
-        nome_arq[ strlen( nome_arq ) - 1 ] = '\0';
+        tam = strlen( nome_arq );
+        nome_arq[ tam - 1 ] = '\0';
         RESET_PADRAO;
         esconderCursorTec();            // Reesconder o cursor
+
+        /// Adição do .txt
+        tam = strlen( nome_arq );
+        if( nome_arq[ tam - 1 ] == 't' )
+                if( nome_arq[ tam - 2 ] == 'x' )
+                        if( nome_arq[ tam - 3 ] == 't' )
+                                if( nome_arq[ tam - 4 ] == '.' )
+                                        flag_formato = 1;
+        if( !flag_formato ){
+                nome_arq[ tam ] = '.';
+                nome_arq[ tam + 1 ] = 't';
+                nome_arq[ tam + 2 ] = 'x';
+                nome_arq[ tam + 3 ] = 't';
+                nome_arq[ tam + 4 ] = '\0';
+        }
+
 
 
         /// Abertura  e  Verificação de êxito na abertura do arquivo
@@ -79,6 +97,13 @@ int op1( METADADOS_ARQ* dadosArq , char*** matriz ){
  */
 
 int op2( METADADOS_ARQ* dadosArq , char*** matriz ){
+
+        /// Verificação de existência de arquivo carregado
+        if( dadosArq->nome == NULL ){
+                avisoNenhumArquivoCarregado();
+                return 0;
+        }
+
         /// Arquivo aberto
         printColoridoXY("Conteudo do Arquivo: " , 2 , 2 , AZUL );
         printColorido( dadosArq->nome , CIANO );
@@ -88,6 +113,8 @@ int op2( METADADOS_ARQ* dadosArq , char*** matriz ){
         printColoridoXY( "VOLTAR" , 30 , 16 , AZUL );
 
         pausaE_PRO();
+
+
         return 0;
 
 }
@@ -106,6 +133,13 @@ int op2( METADADOS_ARQ* dadosArq , char*** matriz ){
 int op3( METADADOS_ARQ* dadosArq , char*** matriz ){
         char alvo , substituto;
         char **copia;
+
+        /// Verificação de existência de arquivo carregado
+        if( dadosArq->nome == NULL ){
+                avisoNenhumArquivoCarregado();
+                return 0;
+        }
+
 
         /// Alocando Copia
         copia = (char**)malloc( dadosArq->lins * sizeof( char* ) );
@@ -169,6 +203,12 @@ int op3( METADADOS_ARQ* dadosArq , char*** matriz ){
 
 int op4( METADADOS_ARQ* dadosArq , char*** matriz ){
 
+        /// Verificação de existência de arquivo carregado
+        if( dadosArq->nome == NULL ){
+                avisoNenhumArquivoCarregado();
+                return 0;
+        }
+
         /// Abertura  e  Verificação de êxito na abertura do arquivo
         if( ( dadosArq->ptrFile = fopen( dadosArq->nome , "w+" ) ) == NULL ){
                 /// Erro na abertura do arquivo
@@ -208,3 +248,20 @@ int op4( METADADOS_ARQ* dadosArq , char*** matriz ){
 int op5( METADADOS_ARQ* dadosArq , char*** matriz ){
         return 1;
 }
+
+
+
+/** \brief Avisa que nenhum arquivo foi carregado
+ *
+ * \param void
+ * \return void
+ *
+ */
+
+void avisoNenhumArquivoCarregado( void ){
+       LMPTELA;
+       printColoridoXY("\aNenhum Arquivo Carregado!" , 25 , 10 , VERMELHO );
+       printColoridoXY("Carregue algum arquivo..." , 25 , 12 , BRANCO );
+       pausaS( 1.5 );   // Pausa de 1,5 segundos
+}
+

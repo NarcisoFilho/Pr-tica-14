@@ -38,7 +38,7 @@ void fim( DADOS_MENU );
  * \param *char :  Caractere substituto
  * \param *char :  Numero de linhas
  * \param *char :  Numero de colunas
- * \return int : 0 em caso de suscesso , -1 em caso de falha
+ * \return    int : 0 em caso de sucesso , -1 em caso de falha
  *
  *      → Caso iniciado sem argumentos apresenta interface gráfica ao usuário com opções do menu;
  *
@@ -48,25 +48,23 @@ void fim( DADOS_MENU );
  *                      ▄ 3° Argumento: Quantidade de COLUNAS a se considerar
  *                      ▄ 4° Argumento: CARACTERE a ser substituído
  *                      ▄ 5° Argumento: NOVO CARACTERE
- *
  */
 
 int main( int argc , char* argv[] ){
         int (*funcsMenu[ 5 ] )( METADADOS_ARQ* , char*** ) = { op1 , op2 , op3 , op4 , op5 };
-        METADADOS_ARQ dadosArq;
+        METADADOS_ARQ dadosArq = { NULL };
         DADOS_MENU menu = inicializarMenuPratica14();
         char** matriz = NULL;
 
         ativarANSIConsole();
 
-        /// Substituir caractere pela linha de comando
+        /// Substituir caractere pelo Interpretador de Comandos
         if( argc > 1 )
                 localizarSubstituirTxtLinhaComando(  &dadosArq , &matriz , argc , argv );
 
+        /// Modo Gráfico
         dadosArq.lins = 10;
         dadosArq.cols = 10;
-
-        /// Menu Gráfico
         do{
                 atualizar_menu( &menu );
                 desenhar_menu( &menu );
@@ -182,5 +180,5 @@ void localizarSubstituirTxtLinhaComando( METADADOS_ARQ* dadosArq , char*** matri
 
         op4( dadosArq , matriz );
 
-        exit( 1 );
+        exit( 0 );
 }

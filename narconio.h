@@ -94,7 +94,7 @@
 
         // MACROS
         #define RESET_PADRAO printf("\x1b[0m")         // Reinicia estilo e cor para o padrão do terminal
-        #define LMPTELA printf("\x1b[2J")                    // Limpa Tela
+        #define LMPTELA printf("\x1b[2J")                    // Limpa Tela e reinicia posição do cursor para o inicio
 
         /// CURSOR ----------------------------------------------------------
         void cursorXY( int x , int y );                         // Posiciona o cursor nas coordenadas ( x , y )
