@@ -12,7 +12,8 @@
 
         #include "narconio.h"
 
-        void atualizar_menu( DADOS_MENU* menu );
         void desenhar_menu( DADOS_MENU* menu );
+        void atualizar_menu( DADOS_MENU* menu );
+        void atualizaSelSetas( int* sel , int limInf , int limSup  );
 
 #endif // __MENUPADRAO_H_

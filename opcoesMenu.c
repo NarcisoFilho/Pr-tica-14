@@ -1,10 +1,9 @@
 
 
 #include "narconio.h"
+#include "menuPadrao.h"
 #include "opcoesMenu.h"
 #include "funcoesEnunciado.h"
-
-
 
 /** \brief  Abre arquivo de texto no modo Leitura
  *
@@ -16,38 +15,50 @@
 
 int op1( METADADOS_ARQ* dadosArq , char*** matriz ){
         static int qtd_erros = 0;
-        static char nome_tentativa_anterior[ 100 ];
+        static char nome_tentativa_anterior[ 100 ] = { 0 };
         char nome_arq[ 100 ];
 
 
         /// Entrada pelo usuário do nome do arquivo
-        printf("Indique o nome do aquivo: ");
-        limpaBuffer();
+        printColoridoXY("Indique o nome do aquivo: " , 5 , 3 , BRANCO );
+
+        exibirCursorTec();              // Exibir Cursor
+
+        limpaBufferPro();
+
+        defCorTxt( CIANO );
         fgets( nome_arq , 100 , stdin );
         nome_arq[ strlen( nome_arq ) - 1 ] = '\0';
-        // Alocação e Atribuição
-        dadosArq->nome = (char*)malloc( strlen( nome_arq ) * sizeof( char ) );
-        strcpy( dadosArq->nome , nome_arq );
+        RESET_PADRAO;
+        esconderCursorTec();            // Reesconder o cursor
+
 
         /// Abertura  e  Verificação de êxito na abertura do arquivo
-        if( abre_le_arquivo( matriz , dadosArq->nome , 10 , 10 ) == -1 ){
-                // Erro na abertura do arquivo
-                printColorido("\a ERRO NA ABERTURA DO ARQUIVO!" , VERMELHO);
+        if( abre_le_arquivo( matriz , nome_arq , dadosArq->lins , dadosArq->cols ) == -1 ){
+                /// Erro na abertura do arquivo
+                printColorido("\a ERRO NA ABERTURA DO ARQUIVO!" , VERMELHO );
                 pausaS( 1.5 );          // Pausa por 1 segundo e meio
                 qtd_erros++;
         }else{
-                // Sucesso na abertura do arquivo
-                printColorido("Arquivo Aberto Com Sucesso!" , VERDE);
-                pausaS( 1.5 );          // Pausa por 1 segundo e meio
+                /// Sucesso na abertura do arquivo
+                // Alocação e Atribuição
+                dadosArq->nome = (char*)malloc( strlen( nome_arq ) * sizeof( char ) );
+                strcpy( dadosArq->nome , nome_arq );
+
+                // Aviso
+                printColorido("Arquivo Aberto Com Sucesso!" ,  VERDE);
+                pausaS( 0.5 );          // Pausa por meio segundo
+                pausaE();          // Pausa até usuário teclar enter
                 qtd_erros = 0;          // Zera contagem de falhas
         }
 
         /// Reiniciar contador de erros
-        if( strcmp( dadosArq->nome , nome_tentativa_anterior) )
+        if( strcmp( nome_arq , nome_tentativa_anterior) )
                 qtd_erros = 0;
+        strcpy( nome_tentativa_anterior , nome_arq );
 
-        /// Execesso de tentativas de abertura do mesmo arquivo
-        if( qtd_erros == 4 )
+        /// Excesso de tentativas de abertura do mesmo arquivo
+        if( qtd_erros >= 3 )
                 ErroFatal( FALHA_AUTORIZACAO_ABERTURA_ARQ );
 
 
@@ -68,14 +79,17 @@ int op1( METADADOS_ARQ* dadosArq , char*** matriz ){
  */
 
 int op2( METADADOS_ARQ* dadosArq , char*** matriz ){
-//        printColoridoXY("Conteudo do Arquivo: " , AZUL , 2 , 2 );
-//        printColorido( dadosArq->nome , CIANO );
-//
-//        cursorXY( 10 , 4 );
-//        imprime_matriz_tela( &dadosArq->nome , 10 , 10 );
-//        printColoridoXY( "VOLTAR" , AZUL , 30 , 16 );
-//        pausaE_LBP();
+        /// Arquivo aberto
+        printColoridoXY("Conteudo do Arquivo: " , 2 , 2 , AZUL );
+        printColorido( dadosArq->nome , CIANO );
+
+        cursorXY( 10 , 4 );
+        imprime_matriz_tela( *matriz , 10 , 10 );
+        printColoridoXY( "VOLTAR" , 30 , 16 , AZUL );
+
+        pausaE_PRO();
         return 0;
+
 }
 //###########################################################
 
@@ -90,44 +104,55 @@ int op2( METADADOS_ARQ* dadosArq , char*** matriz ){
  */
 
 int op3( METADADOS_ARQ* dadosArq , char*** matriz ){
-//        char alvo , substituto;
-//        char copia[ 20 ][ 20 ];
-//
-//        /// Copiando Original
-//        for( int i = 0 ; i < 10 ; i++ )
-//                strcpy( copia[ i ] , *matriz[ i ] );
-//
-//        ///
-//        printSubliColorXY("Localizar e Substituir" , 25 , 2 , AZUL );
-//
-//        /// Caractere alvo
-//        printColoridoXY("Caractere a ser substitu\241do: " , 3 , 4 , BRANCO );
-//        defCorTxt( VERDE );
-//        alvo = getchar();
-//
-//        /// Caractere substituto
-//        printColoridoXY("Substituto: " , 3 , 5 , BRANCO );
-//        defCorTxt( VERDE );
-//        substituto = getchar();
-//
-//        /// SUBSTITUIÇÃO
-//        printColoridoXY("TRABALHANDO NISSO >>>" , 7 , 8 , VERDE );
-//        for( int i = 0 ; i < 10 ; i++ )
-//                for( int j = 0 ; j < 10 ; j++ )
-//                        if( *matriz[ i ][ j ] == alvo )
-//                                *matriz[ i ][ j ] = substituto;
-//        pausaS( 1.3 );
-//        limpaLinha( 8 );
-//
-//        /// Resultados
-//        printSublinhadoXY("Original" , 6  , 8 );
-//        cursorXY( 4 , 8 );//        imprime_matriz_tela( (char**)copia , 10 , 10 );
-//
-//
-//        printSublinhadoXY("Alterada" , 25  , 8 );
-//        cursorXY( 23 , 8 );
-//        imprime_matriz_tela( *matriz , 10 , 10 );
-//
+        char alvo , substituto;
+        char **copia;
+
+        /// Alocando Copia
+        copia = (char**)malloc( dadosArq->lins * sizeof( char* ) );
+        if( copia == NULL ) ErroFatal( FALHA_ALOCACAO_MEM );           // Verificação
+        for( int i = 0 ; i < 10 ; i++ ){
+                copia[ i ] = (char*)malloc( dadosArq->cols * sizeof( char ) );
+                if( copia[ i ] == NULL ) ErroFatal( FALHA_ALOCACAO_MEM );   // Verificação
+        }
+
+        /// Copiando Original
+        for( int i = 0 ; i < 10 ; i++ )
+                strcpy( *( copia + i ) , *( *matriz + i )  );
+
+        ///
+        limpaBuffer();
+        printSubliColorXY("Localizar e Substituir" , 25 , 2 , AZUL );
+
+        /// Caractere alvo
+        printColoridoXY("Caractere a ser substitu\241do: " , 3 , 4 , BRANCO );
+        defCorTxt( CIANO );
+//        limpaBufferPro();
+        scanf(" %c" , &alvo );
+
+        /// Caractere substituto
+        printColoridoXY("Substituto: " , 3 , 5 , BRANCO );
+        defCorTxt( CIANO );
+        scanf( " %c" , &substituto );
+
+        /// SUBSTITUIÇÃO
+        printColoridoXY("TRABALHANDO NISSO >>>" , 7 , 8 , VERDE );
+        troca_caracter( matriz , dadosArq->lins , dadosArq->cols , alvo , substituto );
+        pausaS( 1.3 );
+        limpaLinha( 8 );
+
+        /// Resultados
+        printSublinhadoXY("Original" , 6  , 8 );
+        cursorXY( 4 , 8 );        imprime_matriz_tela_PRO( copia , dadosArq->lins , dadosArq->cols , alvo , AMARELO , VERMELHO );
+
+
+        printSublinhadoXY("Alterada" , 25  , 8 );
+        cursorXY( 23 , 8 );
+        imprime_matriz_tela_PRO( *matriz , dadosArq->lins , dadosArq->cols , substituto , AMARELO , VERDE );
+
+        /// Liberando Copia
+        free( copia );
+
+        pausaE_PRO();
         return 0;
 }
 //###########################################################
@@ -143,9 +168,28 @@ int op3( METADADOS_ARQ* dadosArq , char*** matriz ){
  */
 
 int op4( METADADOS_ARQ* dadosArq , char*** matriz ){
-        printf("op4");
-        pausaMS( 500 );
 
+        /// Abertura  e  Verificação de êxito na abertura do arquivo
+        if( ( dadosArq->ptrFile = fopen( dadosArq->nome , "w+" ) ) == NULL ){
+                /// Erro na abertura do arquivo
+                printColorido("\a ERRO NO SALVAMENTO!" , VERMELHO);
+                pausaS( 1.5 );          // Pausa por 1 segundo e meio
+                return 0;
+        }else{
+                /// Sucesso na abertura do arquivo
+                // Gravação
+                for( int i = 0 ; i < dadosArq->lins ; i++)
+                        fputs( *( *matriz + i ) , dadosArq->ptrFile );
+        }
+
+
+        printColoridoXY("Arquivo Salvo com Sucesso!" , 10 , 10 , VERDE );
+
+        /// FECHAMENTO DO ARQUIVO
+        fclose( dadosArq->ptrFile );
+
+        pausaMS( 500 );
+        pausaE_PRO();
         return 0;
 }
 //###########################################################
@@ -162,7 +206,5 @@ int op4( METADADOS_ARQ* dadosArq , char*** matriz ){
  */
 
 int op5( METADADOS_ARQ* dadosArq , char*** matriz ){
-        printf("op5");
-
         return 1;
 }

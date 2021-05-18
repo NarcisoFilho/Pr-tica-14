@@ -57,7 +57,7 @@ void pausaE( void ){
  *      limpeza de buffer e aplica uma pausa para evitar que o pressionamento do enter interfira em
  *      outro procedimento
  */
-void pausaE_LBP( void ){
+void pausaE_PRO( void ){
         pausaMS( 500 );
         limpaBuffer();
         pausaE();
@@ -83,6 +83,22 @@ void limpaBuffer( void ){
 
 
 
+/** \brief Limpa o Buffer do teclado com garantia de não alterar cursor
+ *
+ * \param void
+ * \return void
+ *      Salva a posição do cursor e restaura após limpeza do buffer. Não recomendada se houver uso do
+ *      do comando salvarCursor  no programa
+ */
+void limpaBufferPro( void ){
+        salvarPosCursor();
+        limpaBuffer();
+        carregarPosCursor();
+}
+//###########################################################
+
+
+
 /** \brief Encerra sistema e exibe mensagem de erro
  *
  * \param int : Código do erro ( consultar narconio.h )
@@ -91,9 +107,13 @@ void limpaBuffer( void ){
  */
 void ErroFatal( int cod ){
         // colorir fundo azul@@#@#@#@#@
-        LMPTELA;
         defCorTxtFundo( AZUL );
-        printColoridoXY( "\aERRO FATAL!! ENCERRANDO SISTEMA >>" , BRANCO , 20 , 3 );
+        LMPTELA;
+        cursorHome();
+        for( int i = 700 ; i ; i-- )
+                printf(" ");
+
+        cursorHome();        printSublinhadoXY( "\aERRO FATAL!! ENCERRANDO SISTEMA >>" , 30 , 3 );
         pausaS( 0.5 );          // Pausa por meio segundo
         printf("\a");
         pausaS( 0.5 );          // Pausa por meio segundo
@@ -103,14 +123,18 @@ void ErroFatal( int cod ){
         switch( cod ){
                 // Problemas de autorização para abertura de arquivo pelo OS
                 case 100:
-                        printColoridoXY("ERRO 100: Problemas de autoriza\207\306o de abertura de arquivos. " , BRANCO , 10 , 7 );
-                        printColoridoXY("Solucao: Verifique permiss\344es do OS ao compilador " , BRANCO , 10 , 8 );
+                        printColoridoXY("ERRO 100: Problemas de autoriza\207\306o de abertura de arquivos. " , 10 , 9 ,  BRANCO  );
+                        printColoridoXY("Sugest\306o: Verifique, no seu SO, as permiss\344es de leitura e grava\207\306o do compilador " , 10 , 15  , BRANCO );
+                        avancarCursorLins( 3 );
+                        pausaS( 5 );
                         exit(100);
 
                 // Problemas de alocação de memória
                 case 101:
-                        printColoridoXY("ERRO 101: Problemas na alocação de memória. " , BRANCO , 10 , 7 );
-                        printColoridoXY("Solucao: Verifique OS e compilador " , BRANCO , 10 , 8 );
+                        printColoridoXY("ERRO 101: Problemas na alocação de memória. " , 10 , 9 ,  BRANCO);
+                        printColoridoXY("Sugest306o: Verifique as configura\207\344es de acesso \205 mem\162ria do compilador " , 10 , 15 , BRANCO );
+                        avancarCursorLins( 3 );
+                        pausaS( 5 );
                         exit(101);
         }
 }
@@ -176,6 +200,75 @@ BOOL checaTeclaEspecial( int tecla ){
 
 /// DESIGN --------------------------------------------------------------------------------
 
+
+/** \brief Saída de caractere nas coordenadas ( x , y )
+ *
+ * \param char : Caractere
+ * \param int : Coordenada x
+ * \param int : Coordenada y
+ * \return void
+ *
+ */
+
+void putcXY( char caractere , int x , int y  ){
+        printf("\x1b[%d;%dH" , y , x );
+        printf("%c" , caractere );
+}
+//###########################################################
+
+
+
+/** \brief Saída de caractere colorido
+ *
+ * \param char : Caractere
+ * \param COR : Cor do caractere
+ * \return void
+ *
+ */
+
+void putcColorido( char caractere , COR cor ){
+        printf("\x1b[3%dm%c" , cor , caractere );
+        RESET_PADRAO;
+}
+//###########################################################
+
+
+
+/** \brief Saída de caractere colorido nas coordenadas ( x , y )
+ *
+ * \param char : Caractere
+ * \param int : Coordenada x
+ * \param int : Coordenada y
+ * \param COR : Cor do caractere
+ * \return void
+ *
+ */
+
+void putcColoridoXY( char caractere , int x , int y , COR cor ){
+        printf("\x1b[%d;%dH" , y , x );
+        printf("\x1b[3%dm%c" , cor , caractere );
+        RESET_PADRAO;
+}
+//###########################################################
+
+
+
+/** \brief Saída de texto nas coordenadas ( x , y )
+ *
+ * \param char* : Texto
+ * \param int : Coordenada x
+ * \param int : Coordenada y
+ * \return void
+ *
+ */
+void printXY( char* texto , int x , int y  ){
+        printf("\x1b[%d;%dH" , y , x );
+        printf("%s" , texto );
+}
+//###########################################################
+
+
+
 /** \brief Saída de texto formatado colorido
  *
  * \param char* : Texto
@@ -189,7 +282,6 @@ void printfColorido( char* texto , COR cor ){
 
 }
 //###########################################################
-
 
 
 /** \brief Saída de texto colorido
@@ -209,15 +301,15 @@ void printColorido( char* texto , COR cor ){
 /** \brief Saída de texto colorido nas coordenadas ( x , y )
  *
  * \param char* : Texto
- * \param COR : Cor do texto
  * \param int : Coordenada x
  * \param int : Coordenada y
+ * \param COR : Cor do texto
  * \return void
  *
  */
 void printColoridoXY( char* texto , int x , int y , COR cor ){
         printf("\x1b[%d;%dH" , y , x );
-        printf("\x1b[3%dm %s" , cor , texto );
+        printf("\x1b[3%dm%s" , cor , texto );
         RESET_PADRAO;
 }
 //###########################################################
@@ -500,5 +592,39 @@ PONTO obterCursorTec( void ){
 }
 //###########################################################
 
+
+
+/// STRINGS ═════════════════════════════════════════════════════
+/// MEDIÇÃO --------------------------------------------------------------------------------
+
+
+
+/** \brief Retorna coordenada de inserção de string para centralização horizontal
+ *
+ * \param char* : Texto a ser centralizad
+ * \param RETANG : Tela de referência
+ * \return int : Número da coluna de inserção do texto para ficar centralizado
+ *
+ */
+
+int centraTxtXTela( char* texto , RETANG tela ){
+        return ( tela.larg - strlen( texto ) ) / 2;
+}
+//###########################################################
+
+
+
+/** \brief Retorna coordenada de inserção de conjunto de strings para centralização vertical
+ *
+ * \param int :
+ * \param RETANG : Tela de referência
+ * \return int : Número da linha de inserção da matriz para ficar centralizado
+ *
+ */
+
+int centraMatrizYTela( int qtd_elementos , RETANG tela ){
+        return ( tela.altu - qtd_elementos ) / 2;
+}
+//###########################################################
 
 

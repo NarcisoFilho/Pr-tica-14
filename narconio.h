@@ -26,8 +26,9 @@
         void pausaMS( int tempoMS );                 // Pausa a execução. Tempo em millisegundos
         void pausaS( float tempoS );                  // Pausa a execução. Tempo em segundos
         void pausaE( void );                              // Pausa a execução até o usuário pressionar enter
-        void pausaE_LBP( void );                     //Pausa a execução até o usuário pressionar enter, com limpeza prévia de buffer e pausa
+        void pausaE_PRO( void );                     //Pausa a execução até o usuário pressionar enter, com limpeza prévia de buffer e pausa
         void limpaBuffer( void );                        // Limpa o buffer do teclado
+        void limpaBufferPro( void );                        // Limpa o buffer do teclado com garantia de não alteração do cursor
         void ErroFatal( int cod );                        // Encerra sistema e exibe mensagem de erro
 
         // CODIGOS DE ERROS
@@ -57,6 +58,11 @@
         void defCorTxtFundo( COR cor );                        // Define cor de saída do fundo do texto
         void defEstiloTxt( int estilo_de_texto );               // Define o estilo de saída do texto
 
+        void putcXY( char caractere , int x , int y  );                                  // Saída de caractere nas coordenadas ( x , y )
+        void putcColorido( char caractere , COR cor );                                  // Saída de caractere colorido
+        void putcColoridoXY( char caractere , int x , int y , COR cor );           // Saída de caractere colorido nas coordenadas ( x , y )
+
+        void printXY( char* texto , int x , int y  );                                 // Saída de texto nas coordenadas ( x , y )
         void printColorido( char* texto , COR cor );                                    // Saída de texto colorido
         void printColoridoXY( char* texto , int x , int y , COR cor );          // Saída de texto colorido na posição ( x , y )
         void printSublinhado( char* texto );                                            // Saída de texto sublinhado
@@ -73,7 +79,7 @@
         #define VERDE 2
         #define AMARELO 3
         #define AZUL 4
-        #define MAGENTA 5
+        #define VIOLETA 5
         #define CIANO 6
         #define BRANCO 7
 
@@ -104,5 +110,14 @@
         void esconderCursorTec( void );                    // Torna o cursor do teclado INVISÍVEL
         void exibirCursorTec( void );                         // Torna o cursor do teclado VISÍVEL
         PONTO obterCursorTec( void );                     // Retorna posição do cursor do teclado
+
+
+
+
+    /// STRINGS  ═════════════════════════════════════════════════════
+        /// MEDIÇÃO --------------------------------------------------------------------------------
+
+        int centraTxtXTela( char* texto , RETANG tela );                    // Retorna coordenada de inserção de string para centralização horizontal
+        int centraMatrizYTela( int qtd_elementos , RETANG tela );         // Retorna coordenada de inserção de conjunto de arrays para centralização vertical
 
 #endif // __NARCONIO_H_

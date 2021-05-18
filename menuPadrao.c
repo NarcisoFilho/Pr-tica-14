@@ -11,22 +11,7 @@
 
 void atualizar_menu( DADOS_MENU* menu ){
         /// Pelo Teclado -----------------------------------
-        static int delay;
-
-        if( !delay ){
-        //        if( checaTeclaEspecial( TECLA_SETA_BAIXO ) )
-                if( GetAsyncKeyState( VK_DOWN )  &&  0x8000 )
-                        if( menu->selec < menu->qtd_items - 1 )
-                                menu->selec++ , delay = 1;
-
-        //        if( checaTeclaEspecial( TECLA_SETA_CIMA ) )
-                if( GetAsyncKeyState( VK_UP )  &&  0x8000 )
-                    if( menu->selec > 0 )
-                                menu->selec-- , delay = 1;
-        }else
-                delay--;
-
-//        limpaBuffer();
+                atualizaSelSetas( &menu->selec , 0 , menu->qtd_items - 1 );
 }
 //###########################################################
 
@@ -39,12 +24,39 @@ void atualizar_menu( DADOS_MENU* menu ){
  */
 
 void desenhar_menu( DADOS_MENU* menu ){
+        COR cor;
+        int centroY = centraMatrizYTela ( 2 * menu->qtd_items , menu->tela ) + menu->tela.altu / 9;
+
         esconderCursorTec();
 
-        for( int i = 0 ; i < menu->qtd_items ; i++ )
-                if( i != menu->selec )
-                        printColoridoXY( menu->items_menu[ i ] , AZUL , 10 , 3 + i );
+        printSubliColorXY( menu->sub_titulo , centraTxtXTela( menu->sub_titulo , menu->tela ) , centroY - 4 , menu->cor_sub_titulo );
+        for( int i = 0 ; i < menu->qtd_items ; i++ ){
+                if( i == menu->selec ) cor = menu->cor_select;
+                else cor = menu->cor_comum;
 
-        printColoridoXY( menu->items_menu[ menu->selec ] , VERDE , 10 , 3 + menu->selec );
+                printColoridoXY( menu->items_menu[ i ] , centraTxtXTela( menu->items_menu[ i ] , menu->tela ) , centroY + 4 * i , cor );
+        }
 }
 //###########################################################
+
+
+
+/** \brief Atualiza variável de seleção pelas teclas setas
+ *
+ * \param int* : Endereço da variável de seleção
+ * \param int : Limite INFERIOR do valor da variável de seleção
+ * \param int : Limite SUPERIOR do valor da variável de seleção
+ * \return void
+ *
+ */
+ void atualizaSelSetas( int* sel , int limInf , int limSup  ){
+//        if( checaTeclaEspecial( TECLA_SETA_BAIXO ) )
+        if( GetAsyncKeyState( VK_DOWN )  &  0x8000 )
+                if( *sel < limSup )
+                        *sel += 1;
+
+//        if( checaTeclaEspecial( TECLA_SETA_CIMA ) )
+        if( GetAsyncKeyState( VK_UP )  &  0x8000 )
+            if( *sel > limInf )
+                        *sel -= 1;
+}

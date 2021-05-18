@@ -26,10 +26,14 @@
                 char* nome;
                 char* pasta;
                 void* tipo;
+
+                int lins;
+                int cols;
         }METADADOS_ARQ;
 
         typedef struct {
                 char* titulo;
+                char* sub_titulo;
                 char** items_menu;
                 int qtd_items;
                 int selec;
@@ -38,8 +42,10 @@
                 COR cor_comum;
                 COR cor_select;
                 COR cor_titulo;
+                COR cor_sub_titulo;
 
                 BOOL titulo_subl;
+                RETANG tela;
         }DADOS_MENU;
 
 

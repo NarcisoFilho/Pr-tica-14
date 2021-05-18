@@ -29,7 +29,7 @@ int abre_le_arquivo( char*** endMat , char* nome_arq , int lins , int cols ){
                 for( int i = 0 ; i < lins ; i++ ){
                         pausaMS( 33 );
                         fgets( *( *endMat +  i ) , 200 , arq );
-                        printColoridoXY( *( *endMat +  i ) , AMARELO , 30 , 7 + i );
+                        printColoridoXY( *( *endMat +  i ) , 30 , 7 + i , AMARELO );
                 }
         }
 
@@ -52,9 +52,42 @@ void imprime_matriz_tela( char** m , int lins , int cols ){
         salvarPosCursor();
         for( int i = 0  ; i < 10 ; i++ ){
                         carregarPosCursor();
-                        avancarCursorLins( i );
+                        avancarCursorLins( i + 1 );
                         printColorido( m[ i ] , AMARELO );
         }
+}
+//###########################################################
+
+
+
+/** \brief Imprime uma Matriz de Caracteres na tela destacando algum caracter
+ *
+ * \param char** : Matriz a ser impressa
+ * \param int : Quantidade de LINHAS
+ * \param int : Quantidade de COLUNAS
+ * \param char : Caractere a ser destacado
+ * \param COR : Cor Padrão
+ * \param COR : Cor do Destaque
+ * \return void
+ */
+
+void imprime_matriz_tela_PRO( char** m , int lins , int cols , char caractere , COR cor_padr ,  COR cor_destaque ){
+        COR cor;
+
+        salvarPosCursor();
+        for( int i = 0  ; i < 10 ; i++ )
+                for( int j = 0  ; j < 10 ; j++ ){
+
+                        if( !( j % 10 ) ){
+                                carregarPosCursor();
+                                avancarCursorLins( i + 1 );
+                        }
+
+                        if( m[ i ][ j ] == caractere) cor = cor_destaque;
+                        else cor = cor_padr;
+
+                        putcColorido( m[ i ][ j ] , cor );
+                }
 }
 //###########################################################
 
@@ -112,10 +145,10 @@ int abre_grava_arquivo(char** m , char* nome_arq , int lins , int cols ){
  *
  */
 
-void troca_caracter( char **m , int lins , int cols , char c_original , char c_substituto ){
+void troca_caracter( char ***m , int lins , int cols , char c_original , char c_substituto ){
         for( int i = 0 ; i < lins ; i++ )
                 for( int j = 0 ; j < cols ; j++ )
-                        if( m[ i ][ j ] == c_original )
-                                m[ i ][ j ] = c_substituto;
+                        if( *( *( *m + i ) + j ) == c_original )
+                                *( *( *m + i ) + j ) = c_substituto;
 }
 //###########################################################
